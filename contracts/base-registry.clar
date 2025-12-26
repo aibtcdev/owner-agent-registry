@@ -26,27 +26,6 @@
     owner: principal, ;; owner address
     name: (string-utf8 256),
     description: (string-utf8 256)
-    id: (buff 32), ;; hash of owner/name/desc
-  }
-)
-
-(define-map OwnerAgentAgreements
-  {
-    principal ;; owner
-    principal ;; agent
-  }
-  principal ;; contract
-)
-
-(define-map AgreementDetails
-  principal ;; contract
-  {
-    owner: principal,
-    agent: principal,
-    name: (string-utf8 256),
-    description: (string-utf8 256)
-    id: (buff 32), ;; hash of owner/agent/name/desc
-    hash: (buff 32) ;; hash of contract code
   }
 )
 
@@ -56,9 +35,6 @@
 ;; read only functions
 ;;
 
-(define-read-only (get-agreement-by-owner (owner principal)))
-
-(define-read-only (get-agreement-by-agent (agent principal)))
 
 
 
