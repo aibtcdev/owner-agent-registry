@@ -44,7 +44,7 @@
     (map-set OwnerToAgent owner agent)
     (map-set AgentToOwner agent owner)
     (let ((id (try! (compute-agent-id owner agent name description))))
-      (print { event: "agent-registered", owner: owner, agent: agent, id: id })
+      (print { notification: "owner-agent-registry/agent-registered", payload: { owner: owner, agent: agent, id: id } })
       (ok id))))
 
 (define-public (deregister-agent (agent principal))
@@ -55,7 +55,7 @@
     (map-delete AgentDetails agent)
     (map-delete OwnerToAgent owner)
     (map-delete AgentToOwner agent)
-    (print { event: "agent-deregistered", owner: owner, agent: agent })
+    (print { notification: "owner-agent-registry/agent-deregistered", payload: { owner: owner, agent: agent } })
     (ok true)))
 
 (define-public (update-agent-details (agent principal) (name (string-utf8 256)) (description (string-utf8 256)))
@@ -65,7 +65,7 @@
     (asserts! (is-eq owner tx-sender) ERR_NOT_OWNER)
     (map-set AgentDetails agent {owner: owner, name: name, description: description})
     (let ((id (try! (compute-agent-id owner agent name description))))
-      (print { event: "agent-updated", owner: owner, agent: agent, id: id })
+      (print { notification: "owner-agent-registry/agent-updated", payload: { owner: owner, agent: agent, id: id } })
       (ok id))))
 
 ;; read only functions
