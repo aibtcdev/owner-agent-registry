@@ -4,7 +4,7 @@ This repository houses the development of a lightweight Clarity smart contract r
 
 ### Why This Registry?
 
-The rise of agentic AI—autonomous systems that perceive, reason, plan, and act on behalf of users—is transforming commerce and coordination. While Ethereum and L2s like Base advance standards such as ERC-8004 (with its Identity, Reputation, and Validation registries), Stacks offers unique advantages: Bitcoin-anchored finality, Clarity's decidable and re-entrancy-resistant language, and native tools like SIP-009 (NFTs) and SIP-018 (signed structured data).
+The rise of agentic AI, autonomous systems that perceive, reason, plan, and act on behalf of users is transforming commerce and coordination. While Ethereum and L2s like Base advance standards such as ERC-8004 (with its Identity, Reputation, and Validation registries), Stacks offers unique advantages: Bitcoin-anchored finality, Clarity's decidable and re-entrancy-resistant language, and native tools like SIP-009 (NFTs) and SIP-018 (signed structured data).
 
 From AIBTC's real-world testing (e.g., proof-of-completion verification, permissioned agent accounts without custody risks), we've learned that agent growth thrives on:
 
@@ -17,16 +17,16 @@ This registry distills those lessons into a "lean and mean" core, avoiding bloat
 ### Core Design Principles
 
 - **Minimal Agent Definition**: An agent is defined by just four fields:
-    - owner: The human principal (Stacks address) in control.
-    - id: A unique cryptographic hash (e.g., SHA-256 of owner + agent data) for verifiable referencing.
-    - name: Human-readable label (e.g., "TradeAgentV1").
-    - description: Brief overview of purpose/capabilities.
+  - owner: The human principal (Stacks address) in control.
+  - id: A unique cryptographic hash (e.g., SHA-256 of owner + agent data) for verifiable referencing.
+  - name: Human-readable label (e.g., "TradeAgentV1").
+  - description: Brief overview of purpose/capabilities.
 - **Modular Extensions**: Reputation (feedback scores), validation (proofs/attestations), endpoints (A2A/MCP integrations), and more are built as separate contracts referencing the core ID.
 - **Stacks Strengths Leveraged**:
-    - Clarity 4 features like code hashing for template verification.
-    - Auto-registration flows inspired by AIBTC testnet contracts.
-    - Optional multi-level attestations for basic trust.
-    - Compatibility with sBTC, x402 payments, and DAO voting.
+  - Clarity 4 features like code hashing for template verification.
+  - Auto-registration flows inspired by AIBTC testnet contracts.
+  - Optional multi-level attestations for basic trust.
+  - Compatibility with sBTC, x402 payments, and DAO voting.
 
 This approach covers essential discovery and ownership (aligning with ERC-8004's Identity Registry) while enabling developers to "seamlessly build on top" for richer agent economies—e.g., DEX swaps, governance participation, or cross-chain intents.
 
