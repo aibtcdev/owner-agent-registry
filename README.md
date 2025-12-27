@@ -1,34 +1,28 @@
-**A Minimal, Composable Owner-Agent Registry for Stacks – Pioneering Secure Agentic Commerce on Bitcoin**
+# Stacks Owner-Agent Registry
 
-This repository houses the development of a lightweight Clarity smart contract registry designed to position the Stacks blockchain as the premier destination for AI agent ecosystems. Built on insights from the AIBTC platform's experiments and adaptations of Ethereum's ERC-8004 ("Trustless Agents") standard, the **owner-agent-registry** provides a secure, modular foundation for mapping human owners to autonomous AI agents.
+Minimal, modular contracts for owner-agent identity and interactions on Stacks. Inspired by ERC-8004 (Identity/Reputation/Validation Registries).
 
-### Why This Registry?
+Core: One-to-one owner (bare principal) ↔ agent (contract) mappings with unique IDs.
 
-The rise of agentic AI, autonomous systems that perceive, reason, plan, and act on behalf of users is transforming commerce and coordination. While Ethereum and L2s like Base advance standards such as ERC-8004 (with its Identity, Reputation, and Validation registries), Stacks offers unique advantages: Bitcoin-anchored finality, Clarity's decidable and re-entrancy-resistant language, and native tools like SIP-009 (NFTs) and SIP-018 (signed structured data).
+Extensible via addons for reputation, attestations, payments (sBTC/x402).
 
-From AIBTC's real-world testing (e.g., proof-of-completion verification, permissioned agent accounts without custody risks), we've learned that agent growth thrives on:
+## Contracts
 
-- **User control**: Owners retain full withdrawal and permission rights.
-- **Simplicity**: Start with core identity to enable discovery.
-- **Extensibility**: Allow community-built add-ons for advanced features.
+| Name | Path | Summary |
+|------|------|---------|
+| Owner-Agent Registry | `contracts/owner-agent-registry.clar` | Core identity mappings (ERC-8004-like). |
+| Agent Account Example | `contracts/agent-account-example.clar` | Permissioned asset management demo. |
+| Registry Addon Attestation | `contracts/registry-addon-attestation.clar` | Stub for reputation/validations. |
 
-This registry distills those lessons into a "lean and mean" core, avoiding bloat while outperforming Ethereum-centric models in security and Bitcoin integration.
+**Testnet Addresses** (Simnet/TBD):
 
-### Core Design Principles
+- Owner-Agent Registry: `ST000...` (deploy via Clarinet)
 
-- **Minimal Agent Definition**: An agent is defined by just four fields:
-  - owner: The human principal (Stacks address) in control.
-  - id: A unique cryptographic hash (e.g., SHA-256 of owner + agent data) for verifiable referencing.
-  - name: Human-readable label (e.g., "TradeAgentV1").
-  - description: Brief overview of purpose/capabilities.
-- **Modular Extensions**: Reputation (feedback scores), validation (proofs/attestations), endpoints (A2A/MCP integrations), and more are built as separate contracts referencing the core ID.
-- **Stacks Strengths Leveraged**:
-  - Clarity 4 features like code hashing for template verification.
-  - Auto-registration flows inspired by AIBTC testnet contracts.
-  - Optional multi-level attestations for basic trust.
-  - Compatibility with sBTC, x402 payments, and DAO voting.
+## Contract Specifications
 
-This approach covers essential discovery and ownership (aligning with ERC-8004's Identity Registry) while enabling developers to "seamlessly build on top" for richer agent economies—e.g., DEX swaps, governance participation, or cross-chain intents.
+- [Owner-Agent Registry](docs/owner-agent-registry.md)
+- [Agent Account Example](docs/agent-account-example.md)
+- [Registry Addon Attestation](docs/registry-addon-attestation.md)
 
 ### Repository Contents
 
@@ -37,13 +31,12 @@ This approach covers essential discovery and ownership (aligning with ERC-8004's
 - /docs: Detailed design rationale, migration from AIBTC patterns, and SIP proposal drafts.
 - Contribution guidelines for extensions (e.g., reputation module).
 
-### Vision: Stacks as the Go-To for Agentic Growth
+## Key Resources
 
-By providing a secure, Bitcoin-secured registry that's easy to deploy and extend, this project aims to attract developers from Ethereum's fragmented agent stacks. Integrate with aibtc.dev tools for wallets/agents, or build hybrid systems bridging to ERC-8004. Together, we can make Stacks the catalyst for the next wave of on-chain AI—autonomous, trustless, and Bitcoin-native.
-
-**Join the movement**: Fork, contribute add-ons, or deploy on testnet. Let's build the future of agentic commerce on Bitcoin.
-
-For discussions, visit the Stacks Forum or aibtc.dev community.
+- [ERC-8004 Spec](https://eips.ethereum.org/EIPS/eip-8004)
+- [Stacks Docs](https://docs.stacks.co)
+- [Clarity Reference](https://docs.stacks.co/reference/functions)
+- [AIBTC](https://aibtc.com)
 
 **Key Resources**:
 
