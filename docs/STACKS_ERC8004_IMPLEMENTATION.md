@@ -9,6 +9,7 @@
 - **Output**: Testnet deployments + README with addresses (like Solidity README). Live demo agents/feedback.
 
 **Key Adaptations for Clarity/Stacks**:
+
 - **No ERC-721**: Use sequential `agentId` (u64, incremental via data-var), maps for ownership/URI/metadata. Events for indexing.
 - **Signatures**: Flexible verification—**signed message** (Clarity `secp256k1-recover-public-key` on EIP-191-style hash) **or public function call** (agent pre-calls to authorize). STX txs are cheap/fast, so both viable. Follow Clarity conventions (e.g., `print` events, `string-utf8`, `buff` hashes).
 - **Permissions**: Owner/operator via principal maps (like `isApprovedForAll`).
@@ -26,48 +27,55 @@
    | `validation-registry.clar` | Validator requests/responses | `_validations: {(buff 32) requestHash => ValidationStatus {validator: principal, agentId: u64, response: u8, responseHash: (buff 32), tag: (buff 32), lastUpdate: u64}}`, `_agentValidations: {u64 => (list 1024 (buff 32))}`<br>`validationRequest(principal validator, u64 agentId, (string-utf8 512) uri, (buff 32) hash)`, `validationResponse((buff 32) hash, u8 response, [(string-utf8 512) uri, (buff 32) hash, (buff 32) tag])`, `getSummary(u64 agentId, [principal[] validators, (buff 32) tag]) → {count: u64, avg: u8}` |
 
 2. **Deployment**:
+
    - **Testnet First**: Hiro Testnet (stacks chainId: use `stacks-blockchain` query).
    - Singleton: Owner multisig/timelock post-deploy.
    - Clarinet deploy scripts + `settings/Testnet.toml`.
 
-3. **Multichain ID**: `stacks:<chainId>:<identityRegistry>:<agentId>` in agent JSON `registrations[]`.
+3. **Multichain ID**: `stacks:<chainId>:<identityRegistry>:<agentId>` in agent JSON `registrations[]`. Per CAIP-2 for Stacks Mainnet: `stacks:1` and Stacks Testnet: `stacks:2147483648`
 
 4. **Gas/Storage**: Fixed-size `string-utf8`/`buff`, paginate loops (`readAllFeedback`).
 
 ## Next Steps (Prioritized, 1-2 Days Each)
 
 1. **Repo Cleanup (Today)**:
+
    - Delete `agent-account-example.clar`/`.md`, `owner-agent-registry.clar`/`.md`.
    - Stub `registry-addon-attestation.clar` → delete/merge.
    - Update `Clarinet.toml`: Three contracts.
    - Rename: `contracts/identity-registry.clar`, etc.
    - `README.md`: Mirror Solidity (addresses, install/test/deploy).
 
-2. **Identity Registry (Day 1)**:
+2. **Identity Registry**:
+
    - Data-var `_nextAgentId: u64 = 1`.
    - Owner/operator maps/events.
    - Tests: `tests/identity-registry.test.ts`.
 
-3. **Reputation + Auth (Day 2)**:
+3. **Reputation + Auth**:
+
    - `_verifyFeedbackAuth`: Hash `(agentId, client, indexLimit, expiry, chainId, registry, signer)` → recover pubkey == signer (owner/operator).
    - Ban self-feedback.
    - Tests: Auth (signed+func), multi-feedback, summaries.
 
-4. **Validation Registry (Day 3)**:
+4. **Validation Registry**:
+
    - Owner/operator requests.
    - Tests: Requests/responses/summaries.
 
-5. **Integration/Deploy (Day 4)**:
+5. **Integration/Deploy**:
+
    - Cross-calls (rep/valid → identity `ownerOf`).
    - Full tests: `tests/erc8004-full.test.ts`.
    - Deploy Hiro Testnet, update README addresses/JSON example.
 
-6. **Polish (Day 5)**:
+6. **Polish**:
    - `getVersion() → (string-utf8 32)`.
    - Events for indexers.
    - PR to `erc8004-org/erc8004-stacks`.
 
 **Risks/Mitigations**:
+
 - Sig recovery: Test vectors from Solidity/Clarity docs.
 - Loops: Pagination + gas limits.
 - No upgrades: v2 new deploy.

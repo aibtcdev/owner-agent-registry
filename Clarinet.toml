@@ -1,5 +1,5 @@
 [project]
-name = 'owner-agent-registry'
+name = 'erc-8004-stacks-contracts'
 description = ''
 authors = []
 telemetry = true
@@ -8,18 +8,18 @@ cache_dir = './.cache'
 [[project.requirements]]
 contract_id = 'SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard'
 
-[contracts.addon-attestation]
-path = 'contracts/addon-attestation.clar'
+[contracts.identity-registry]
+path = 'contracts/identity-registry.clar'
 clarity_version = 4
 epoch = 'latest'
 
-[contracts.agent-account-example]
-path = 'contracts/agent-account-example.clar'
+[contracts.reputation-registry]
+path = 'contracts/reputation-registry.clar'
 clarity_version = 4
 epoch = 'latest'
 
-[contracts.owner-agent-base-registry]
-path = 'contracts/owner-agent-base-registry.clar'
+[contracts.validation-registry]
+path = 'contracts/validation-registry.clar'
 clarity_version = 4
 epoch = 'latest'
 
