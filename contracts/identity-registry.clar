@@ -16,6 +16,7 @@
 (define-constant MAX_KEY_LEN u128)
 (define-constant MAX_VALUE_LEN u512)
 (define-constant MAX_METADATA_ENTRIES u10)
+(define-constant VERSION u"1.0.0")
 ;;
 
 ;; data vars
@@ -43,7 +44,7 @@
   (token-uri (string-utf8 512)) 
   (metadata-entries (list 10 {key: (string-utf8 128), value: (buff 512)}))
 )
-  (let* (
+  (let (
     (agent-id (var-get next-agent-id))
     (owner tx-sender)
     (updated-next (+ agent-id u1))
@@ -55,7 +56,7 @@
     
     ;; Set metadata entries
     (fold 
-      (lambda (entry prior)
+      ((entry prior)
         (let (
           (mkey (get key entry))
           (mval (get value entry))
@@ -139,7 +140,7 @@
 )
 
 (define-read-only (get-version)
-  (string-utf8 "1.0.0")
+  VERSION
 )
 ;;
 
@@ -158,5 +159,3 @@
     )
   )
 )
-;;
-
