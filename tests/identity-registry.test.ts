@@ -1,4 +1,3 @@
-
 import { describe, expect, it } from "vitest";
 
 import {
@@ -6,11 +5,10 @@ import {
   stringUtf8CV,
   principalCV,
   trueCV,
-  falseCV,
   listCV,
   tupleCV,
-  bufferCV
-} from "clarinet";
+  bufferCV,
+} from "@stacks/transactions";
 
 const accounts = simnet.getAccounts();
 const deployer = accounts.get("deployer")!;
