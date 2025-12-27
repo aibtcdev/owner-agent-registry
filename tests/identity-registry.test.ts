@@ -1,13 +1,14 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  uintCV,
-  stringUtf8CV,
-  principalCV,
-  trueCV,
-  listCV,
-  tupleCV,
   bufferCV,
+  bufferCVFromString,
+  Cl,
+  listCV,
+  principalCV,
+  stringUtf8CV,
+  tupleCV,
+  uintCV,
 } from "@stacks/transactions";
 
 const accounts = simnet.getAccounts();
@@ -86,7 +87,7 @@ describe("identity-registry public functions", () => {
     );
 
     // assert
-    expect(result).toBeOk(trueCV);
+    expect(result).toBeOk(Cl.bool(true));
   });
 
   it("set-metadata() allows owner to set agent metadata", () => {
@@ -95,7 +96,7 @@ describe("identity-registry public functions", () => {
 
     // act
     const key = stringUtf8CV("color");
-    const value = bufferCV(Buffer.from("blue", "utf8"));
+    const value = bufferCVFromString("blue");
     const { result } = simnet.callPublicFn(
       "identity-registry",
       "set-metadata",
@@ -104,7 +105,7 @@ describe("identity-registry public functions", () => {
     );
 
     // assert
-    expect(result).toBeOk(trueCV);
+    expect(result).toBeOk(Cl.bool(true));
   });
 
   it("set-approval-for-all() allows owner to approve operator", () => {
@@ -115,12 +116,12 @@ describe("identity-registry public functions", () => {
     const { result } = simnet.callPublicFn(
       "identity-registry",
       "set-approval-for-all",
-      [uintCV(0n), principalCV(address2), trueCV],
+      [uintCV(0n), principalCV(address2), Cl.bool(true)],
       address1
     );
 
     // assert
-    expect(result).toBeOk(trueCV);
+    expect(result).toBeOk(Cl.bool(true));
   });
 
   it("set-agent-uri() fails if caller not authorized", () => {
@@ -166,7 +167,7 @@ describe("identity-registry public functions", () => {
     const { result } = simnet.callPublicFn(
       "identity-registry",
       "set-approval-for-all",
-      [uintCV(0n), principalCV(address2), trueCV],
+      [uintCV(0n), principalCV(address2), Cl.bool(true)],
       address2
     );
 
@@ -244,7 +245,7 @@ describe("identity-registry read-only functions", () => {
     simnet.callPublicFn(
       "identity-registry",
       "set-approval-for-all",
-      [uintCV(0n), principalCV(address2), trueCV],
+      [uintCV(0n), principalCV(address2), Cl.bool(true)],
       address1
     );
 
@@ -272,6 +273,6 @@ describe("identity-registry read-only functions", () => {
     );
 
     // assert
-    expect(result).toBeString("1.0.0");
+    expect(result).toStrictEqual(Cl.stringUtf8("1.0.0"));
   });
 });
