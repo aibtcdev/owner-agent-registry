@@ -174,6 +174,65 @@ describe("identity-registry public functions", () => {
     // assert
     expect(result).toBeErr(uintCV(1000n));
   });
+
+  it("register() registers multiple agents with incrementing IDs", () => {
+    // act
+    const { result: r1 } = simnet.callPublicFn(
+      "identity-registry",
+      "register",
+      [],
+      address1
+    );
+    const { result: r2 } = simnet.callPublicFn(
+      "identity-registry",
+      "register",
+      [],
+      address2
+    );
+
+    // assert
+    expect(r1).toBeOk(uintCV(0n));
+    expect(r2).toBeOk(uintCV(1n));
+
+    const owner0 = simnet.callReadOnlyFn(
+      "identity-registry",
+      "owner-of",
+      [uintCV(0n)],
+      deployer
+    ).result;
+    expect(owner0).toBeSome(principalCV(address1));
+
+    const owner1 = simnet.callReadOnlyFn(
+      "identity-registry",
+      "owner-of",
+      [uintCV(1n)],
+      deployer
+    ).result;
+    expect(owner1).toBeSome(principalCV(address2));
+  });
+
+  it("set-agent-uri() succeeds when called by approved operator", () => {
+    // arrange
+    simnet.callPublicFn("identity-registry", "register", [], address1);
+    simnet.callPublicFn(
+      "identity-registry",
+      "set-approval-for-all",
+      [uintCV(0n), principalCV(address2), Cl.bool(true)],
+      address1
+    );
+
+    // act
+    const newUri = stringUtf8CV("ipfs://operator-updated");
+    const { result } = simnet.callPublicFn(
+      "identity-registry",
+      "set-agent-uri",
+      [uintCV(0n), newUri],
+      address2
+    );
+
+    // assert
+    expect(result).toBeOk(Cl.bool(true));
+  });
 });
 
 describe("identity-registry read-only functions", () => {
@@ -274,5 +333,34 @@ describe("identity-registry read-only functions", () => {
 
     // assert
     expect(result).toStrictEqual(Cl.stringUtf8("1.0.0"));
+  });
+
+  it("is-approved-for-all() returns false by default", () => {
+    // arrange
+    simnet.callPublicFn("identity-registry", "register", [], address1);
+
+    // act
+    const { result } = simnet.callReadOnlyFn(
+      "identity-registry",
+      "is-approved-for-all",
+      [uintCV(0n), principalCV(address2)],
+      deployer
+    );
+
+    // assert
+    expect(result).toBeBool(false);
+  });
+
+  it("owner-of() returns none for non-existent agent", () => {
+    // act
+    const { result } = simnet.callReadOnlyFn(
+      "identity-registry",
+      "owner-of",
+      [uintCV(999n)],
+      deployer
+    );
+
+    // assert
+    expect(result).toBeNone();
   });
 });
