@@ -22,7 +22,7 @@ describe("identity-registry public functions", () => {
     // arrange
 
     // act
-
+    
     // assert
   });
 
